@@ -63,7 +63,7 @@ jobs:
         run: curl https://api.render.com/deploy/srv-${{ secrets.RENDER_SERVICE_ID }}?key=${{ secrets.RENDER_API_KEY }}
       - name: Notify on succesful deployment
         uses: rjstone/discord-webhook-notify@89b0bf43c2c8514f70d0dcba4a706b904e8a3112
-        if: ${{ success() }}
+        if: ${{ success() && env.MERGE_OR_PUSH_TO_MAIN && !env.SKIP_DEPLOYMENT }}
         with:
           severity: info
           details: A new version of Pokedex deployed
