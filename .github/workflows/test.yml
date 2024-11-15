@@ -27,5 +27,5 @@ jobs:
         run: echo "$COMMIT_MESSAGES"
 
       - name: Deployment skipped?
-        if: ${{ contains(join(env.COMMIT_MESSAGES, ', '), '#skip') }}
+        if: ${{ contains(join(github.event.commits.*.message, ', '), '#skip') }}
         run: echo "Yes it was."
