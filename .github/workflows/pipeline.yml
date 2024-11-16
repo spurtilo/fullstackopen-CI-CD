@@ -58,6 +58,12 @@ jobs:
           path: playwright-report/
           retention-days: 30
 
+      - name: Debug SKIP_DEPLOYMENT
+        run: echo "SKIP_DEPLOYMENT:"${{ env.SKIP_DEPLOYMENT }}
+
+      - name: Debug MERGE_OR_PUSH_TO_MAIN
+        run: echo "MERGE_OR_PUSH_TO_MAIN:"${{ env.MERGE_OR_PUSH_TO_MAIN}}
+
       - name: Trigger deployment
         if: ${{ env.MERGE_OR_PUSH_TO_MAIN && !env.SKIP_DEPLOYMENT }}
         run: curl https://api.render.com/deploy/srv-${{ secrets.RENDER_SERVICE_ID }}?key=${{ secrets.RENDER_API_KEY }}
