@@ -65,18 +65,18 @@ jobs:
         run: echo "MERGE_OR_PUSH_TO_MAIN:"${{ env.MERGE_OR_PUSH_TO_MAIN}}
 
       - name: Trigger deployment
-        if: ${{ env.MERGE_OR_PUSH_TO_MAIN && !env.SKIP_DEPLOYMENT }}
+        if: ${{ env.MERGE_OR_PUSH_TO_MAIN == 'true' && env.SKIP_DEPLOYMENT == 'false' }}
         run: curl https://api.render.com/deploy/srv-${{ secrets.RENDER_SERVICE_ID }}?key=${{ secrets.RENDER_API_KEY }}
       - name: Notify on succesful deployment
+        if: ${{ env.MERGE_OR_PUSH_TO_MAIN == 'true' && env.SKIP_DEPLOYMENT == 'false' }}
         uses: rjstone/discord-webhook-notify@89b0bf43c2c8514f70d0dcba4a706b904e8a3112
-        if: ${{ success() && env.MERGE_OR_PUSH_TO_MAIN && !env.SKIP_DEPLOYMENT }}
         with:
           severity: info
           details: A new version of Pokedex deployed
           webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
 
   tag_release:
-    if: ${{ github.env.MERGE_OR_PUSH_TO_MAIN && !github.env.SKIP_DEPLOYMENT }}
+    if: ${{ github.env.MERGE_OR_PUSH_TO_MAIN == 'true' && github.env.SKIP_DEPLOYMENT == 'false' }}
     needs: [simple_deployment_pipeline]
     runs-on: ubuntu-20.04
     steps:
