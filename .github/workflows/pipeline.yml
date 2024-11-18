@@ -40,12 +40,10 @@ jobs:
         if: ${{ failure() && steps.build.conclusion == 'failure' }}
         with:
           args: |
-            ```
             **Build failed!**
 
             Commit ${{ github.event.head_commit.url }} 
             by ${{ github.event.head_commit.author.username }} broke the build.
-            ```
 
       - name: Unit tests
         run: npm run
@@ -73,17 +71,16 @@ jobs:
         if: ${{ success() && env.MERGE_OR_PUSH_TO_MAIN == 'true' && env.SKIP_DEPLOYMENT == 'false' }}
         with:
           args: |
-            ```
             **A new version of Pokedex deployed!**
 
-            Visit: https://pokedex-o553.onrender.com 
-            by ${{ github.event.head_commit.author.username }}'
-            ```
+            Visit: https://pokedex-o553.onrender.com
+
+            by ${{ github.event.head_commit.author.username }}
 
   tag_release:
-    if: ${{ github.env.MERGE_OR_PUSH_TO_MAIN == 'true' && github.env.SKIP_DEPLOYMENT == 'false' }}
     needs: [simple_deployment_pipeline]
     runs-on: ubuntu-20.04
+    if: ${{ github.env.MERGE_OR_PUSH_TO_MAIN == 'true' && github.env.SKIP_DEPLOYMENT == 'false' }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
