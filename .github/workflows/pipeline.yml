@@ -30,14 +30,14 @@ jobs:
 
       - name: Build
         id: build
-        run: npm run
+        run: npm run build
 
       - name: Notify on failed build
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
           DISCORD_USERNAME: GitHub
         uses: Ilshidur/action-discord@master
-        if: ${{ failure() && steps.build.conclusion == 'failure' }}
+        if: ${{ failure() && env.MERGE_OR_PUSH_TO_MAIN == 'true' && steps.build.conclusion == 'failure' }}
         with:
           args: |
             **Build failed!**
@@ -71,8 +71,7 @@ jobs:
         with:
           args: |
             **A new version of Pokedex deployed**
-            to https://pokedex-o553.onrender.com
-            by ${{ github.event.head_commit.author.username }}
+            to https://pokedex-o553.onrender.com by ${{ github.event.head_commit.author.username }}
 
   tag_release:
     needs: [simple_deployment_pipeline]
