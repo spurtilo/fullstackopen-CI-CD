@@ -30,7 +30,7 @@ jobs:
 
       - name: Build
         id: build
-        run: npm run
+        run: npm run build
 
       - name: Notify on failed build
         env:
