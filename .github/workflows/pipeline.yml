@@ -37,7 +37,7 @@ jobs:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
           DISCORD_USERNAME: GitHub
         uses: Ilshidur/action-discord@master
-        if: ${{ failure() && steps.build.conclusion == 'failure' }}
+        if: ${{ failure() && env.MERGE_OR_PUSH_TO_MAIN == 'true' && steps.build.conclusion == 'failure' }}
         with:
           args: |
             **Build failed!**
