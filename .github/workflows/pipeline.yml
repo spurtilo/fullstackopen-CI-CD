@@ -65,7 +65,6 @@ jobs:
         if: ${{ env.MERGE_OR_PUSH_TO_MAIN == 'true' && env.SKIP_DEPLOYMENT == 'false' }}
         run: curl https://api.render.com/deploy/srv-${{ secrets.RENDER_SERVICE_ID }}?key=${{ secrets.RENDER_API_KEY }}
       - name: Notify on succesful deployment
-        if: ${{ env.MERGE_OR_PUSH_TO_MAIN == 'true' && env.SKIP_DEPLOYMENT == 'false' }}
         uses: rjstone/discord-webhook-notify@89b0bf43c2c8514f70d0dcba4a706b904e8a3112
         if: ${{ success() && env.MERGE_OR_PUSH_TO_MAIN == 'true' && env.SKIP_DEPLOYMENT == 'false' }}
         with:
