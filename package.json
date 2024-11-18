@@ -10,7 +10,7 @@
     "test:e2e": "playwright test",
     "test:report": "playwright show-report",
     "eslint": "eslint \"./**/*.{js,jsx}\"",
-    "build": "webpack --mode production"
+    "build": "nonexistent-command"
   },
   "repository": {
     "type": "git",
