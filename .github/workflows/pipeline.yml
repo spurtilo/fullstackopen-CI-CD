@@ -32,7 +32,7 @@ jobs:
         id: build
         run: npm run
       - name: Notify on failed build
-        uses: rjstone/discord-webhook-notify@89b0bf43c2c8514f70d0dcba4a706b904e8a3112
+        uses: rjstone/discord-webhook-notify@v1
         if: ${{ failure() && steps.build.conclusion == 'failure' }}
         with:
           severity: error
@@ -55,17 +55,18 @@ jobs:
           path: playwright-report/
           retention-days: 30
 
-      - name: Debug SKIP_DEPLOYMENT
-        run: echo "SKIP_DEPLOYMENT:"${{ env.SKIP_DEPLOYMENT }}
-
-      - name: Debug MERGE_OR_PUSH_TO_MAIN
-        run: echo "MERGE_OR_PUSH_TO_MAIN:"${{ env.MERGE_OR_PUSH_TO_MAIN}}
+      - name: Debug Action Input
+        run: |
+          echo "Severity: info"
+          echo "Username: GitHub"
+          echo "Text: A new version of Pokedex deployed"
+          echo "Description: to https://pokedex-o553.onrender.com by ${{ github.event.head_commit.author.username }}"
 
       - name: Trigger deployment
         if: ${{ env.MERGE_OR_PUSH_TO_MAIN == 'true' && env.SKIP_DEPLOYMENT == 'false' }}
         run: curl https://api.render.com/deploy/srv-${{ secrets.RENDER_SERVICE_ID }}?key=${{ secrets.RENDER_API_KEY }}
       - name: Notify on succesful deployment
-        uses: rjstone/discord-webhook-notify@89b0bf43c2c8514f70d0dcba4a706b904e8a3112
+        uses: rjstone/discord-webhook-notify@v1
         if: ${{ success() && env.MERGE_OR_PUSH_TO_MAIN == 'true' && env.SKIP_DEPLOYMENT == 'false' }}
         with:
           severity: info
