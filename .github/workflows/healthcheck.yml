@@ -1,8 +1,10 @@
 name: Periodic health check
 
 on:
-  schedule:
-    - cron: '*/5 * * * *'
+  workflow_dispatch:
+  # Cron schedule disabled
+  # schedule:
+  #   - cron: '*/5 * * * *'
 
 jobs:
   health_check:
